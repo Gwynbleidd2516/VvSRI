@@ -1,13 +1,17 @@
 import numpy as np
+
 from points_gen import gen_point_clouds
-from plot_points import plot_points
+from plot import plot_points, plot_clasters, plot_elbow_graph
 from PCA import PCA
+from kmeans_alg import do_kmeans
+from elbow_method import do_elbow
 
 #Пункт 1. Генерация случайных точек
 print("Как много точек в каждом из трёх облаков сгенерировать?")
 N = int(input())
 
 #Здесь будут генерироваться облака случайных точек, пока человеку не покажется, что они визуально различимы
+points = []
 flag = True
 while flag:
     points = gen_point_clouds(N)
@@ -36,3 +40,9 @@ new_points = PCA(extended_points)
 plot_points(new_points, 'Points after PCA')
 
 #Пункт 4. Кластеризация
+centers = do_kmeans(new_points, cluster_capacity=3, max_iterations=15, tol=0.1, show=True)
+plot_clasters(centers, "Итоговая кластеризация")
+
+#Пункт 5. Метод локтя
+best_num_of_clusters = do_elbow(new_points, 10, "График метода Локтя")
+print("Подходящее число кластеров =", best_num_of_clusters)
