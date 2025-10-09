@@ -1,7 +1,7 @@
 import numpy as np
 
 from points_gen import gen_point_clouds
-from plot import plot_points, plot_clasters, plot_elbow_graph
+from plot import plot_points, plot_clasters
 from PCA import PCA
 from kmeans_alg import do_kmeans
 from elbow_method import do_elbow
@@ -39,10 +39,10 @@ for i in range(extended_points.shape[0]):
 new_points = PCA(extended_points)
 plot_points(new_points, 'Points after PCA')
 
-#Пункт 4. Кластеризация
-centers = do_kmeans(new_points, cluster_capacity=3, max_iterations=15, tol=0.1, show=True)
-plot_clasters(centers, "Итоговая кластеризация")
-
-#Пункт 5. Метод локтя
+#Пункт 4. Метод локтя
 best_num_of_clusters = do_elbow(new_points, 10, "График метода Локтя")
 print("Подходящее число кластеров =", best_num_of_clusters)
+
+#Пункт 5. Кластеризация по лучшему числу кластеров
+centers = do_kmeans(new_points, cluster_capacity=best_num_of_clusters, max_iterations=15, tol=0.1, show=True)
+plot_clasters(centers, "Итоговая кластеризация")
