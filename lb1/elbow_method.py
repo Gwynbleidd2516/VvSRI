@@ -9,7 +9,7 @@ def do_elbow(data: np.array, max_num_of_clusters: int, title: str):
         centers = do_kmeans(data, cluster_capacity=i + 1, max_iterations=15, tol=0.1)
         summ = 0
         for j in range(len(centers)):
-            summ += centers[j].wcss
+            summ += centers[j].wcss()
         inertia.append(summ)
 
     """Проводим из верхней левой точки графика локтя до нижней правой прямую.

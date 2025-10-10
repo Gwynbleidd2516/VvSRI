@@ -1,4 +1,5 @@
 import numpy as np
+from math import sqrt
 from plot import plot_clasters
 from Center import Center
 
@@ -52,7 +53,7 @@ def do_kmeans(data: np.array, cluster_capacity: int, max_iterations: int, tol: f
 
         for point in data:
             # Проходимся по всем центрам, рассчитывая расстояние от них до точки и добавляем точку к ближайшему центру
-            dists = [x.dist(point) for x in centers]
+            dists = [sqrt(x.sqdist(point)) for x in centers]
             min_ind = np.argmin(dists)
 
             # Добавляем точку к ближайшему центру, рассчитываем отклонений
