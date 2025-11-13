@@ -1,5 +1,6 @@
 import numpy as np
 
+# Просто генерация точек и ответов выше они или ниже
 def generate_points_and_ans(num = 100, low = -10, high = 10, seed = 42):
     np.random.seed(seed)
     points = np.random.uniform(low, high, (num, 2))

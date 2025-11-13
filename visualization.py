@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def visualize_train(iteration_errors):
+    # Отрисовка графика истории обучения
     plt.figure()
     plt.title("График ошибки нейросети")
     plt.xlabel("Эпохи")
@@ -10,11 +11,12 @@ def visualize_train(iteration_errors):
     plt.plot(iteration_errors)
     plt.show()
 
-def visualize_valid(valid_inp, valid_ans, correct_list):
+def visualize_valid(valid_inp, valid_ans, correct_list, accuracy):
+    # Отрисовка валидации
     # Отрисовка точек red - если угадано и она ниже прямой y = -x, blue - если угадано и она выше прямой
     # yellow - неправильно
     plt.figure()
-    plt.title("Визуализация валидации нейросети")
+    plt.title(f"Визуализация валидации нейросети\nAccuracy = {accuracy}")
     plt.xlabel("X")
     plt.ylabel("Y")
     plt.grid()
@@ -36,21 +38,19 @@ def visualize_valid(valid_inp, valid_ans, correct_list):
 
 
 def visualize_probability(network):
-
+    # Отрисовка распределения вероятностей
     plt.figure()
-    plt.title('Разделяющая граница после обучения')
+    plt.title('Распределение вероятностей точек быть над или под прямой')
     plt.xlabel('X')
     plt.ylabel('Y')
+
     min_x = -3
     max_x = 3
     x, y = np.meshgrid(np.linspace(min_x, max_x, 100), np.linspace(min_x, max_x, 100))
     grid_points = np.c_[x.ravel(), y.ravel()]
+    predictions = np.array([network.predict(point) for point in grid_points])
+    predictions = predictions.reshape(x.shape)
 
-    predictions = []
-    for point in grid_points:
-        pred = network.predict(point)
-        predictions.append(pred)
-    predictions = np.array(predictions).reshape(x.shape)
     plt.contourf(x, y, predictions, levels=100, cmap='RdYlBu')
     plt.colorbar()
     plt.plot([min_x, -max_x], [-min_x, max_x], ls='--')
